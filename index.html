@@ -341,7 +341,12 @@
             "Joyeux Anniversaire {name} ! 🦋 Comme un papillon, que tu saches t'envoler vers tes rêves cette année. Que la vie t'apporte la santé, l'amour et l'épanouissement. Bonne fête ! 🌸",
             "Bon Anniversaire à {name} ! 🎨 La vie est une toile vierge, peins-la avec les couleurs de ton bonheur. Je te souhaite une année créative, pleine de joie et de succès ! 🎭",
             "Joyeux Anniversaire {name} ! 💝 Aujourd'hui c'est ta fête, savoure chaque moment. Je te souhaite une année merveilleuse, remplie d'amour, de santé et d'accomplissements. À toi ! 👑",
-            "Bon Anniversaire {name} ! ✨ Que ce jour marque le début d'une année incroyable. Tu es une personne spéciale et je te souhaite une année à la hauteur de ta kindness et ta gentillesse. Profite au maximum ! 🎆"
+            "Bon Anniversaire {name} ! ✨ Que ce jour marque le début d'une année incroyable. Tu es une personne spéciale et je te souhaite une année à la hauteur de ta kindness et ta gentillesse. Profite au maximum ! 🎆",
+            "Joyeux Anniversaire mon {name} ! 💕 Chaque jour à tes côtés est une bénédiction. Je te souhaite une journée aussi belle que tu l'es, remplie d'amour, de tendresse et de moments magiques. Tu es mon rayon de soleil ! 🌅",
+            "Bon Anniversaire à mon cœur {name} ! 💗 En ce jour spécial, je te remercie pour tout l'amour que tu apportes dans ma vie. Je te souhaite une année remplie de romance, de rires complices et de souvenirs merveilleux. Je t'aime ! 😘",
+            "Joyeux Anniversaire {name} ! 💞 Tu es la plus belle fleur de mon jardin. Que ce jour te rappelle combien tu es adorée et chérie. Je te souhaite une année remplie de tendresse, de passion et de bonheur éternel. Mon amour pour toi ne cesse de grandir ! 🌹",
+            "Bon Anniversaire à ma personne préférée {name} ! 💑 Chaque moment avec toi est un trésor. En ce jour spécial, je te souhaite une année où notre amour continue de s'épanouir. Que chaque jour soit une nouvelle raison d'être heureux ensemble. Je t'aime infiniment ! 💕",
+            "Joyeux Anniversaire {name} ! 🎀💝 Tu es l'amour de ma vie et la raison de mon sourire quotidien. Je te souhaite une journée aussi douce et merveilleuse que nos moments ensemble. Que cette année nous apporte plus de joie, de passion et de rêves réalisés. À toi pour toujours ! 💫"
         ];
 
         function generateWishes() {
@@ -403,7 +408,7 @@
                 return;
             }
 
-            const siteLink = '\n\n📱 Créé avec: https://hbdweb.com';
+            const siteLink = '\n\n📱 Créé avec: hbd-web-ashy.vercel.app';
             const fullMessage = window.currentWish + siteLink;
             const message = encodeURIComponent(fullMessage);
             const whatsappUrl = `https://api.whatsapp.com/send?text=${message}`;
