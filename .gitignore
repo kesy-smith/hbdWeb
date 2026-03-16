@@ -1,0 +1,4 @@
+/.vscode
+/Dockerfile
+/compose.debug.yaml
+/compose.yaml

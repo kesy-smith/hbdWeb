@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur de Vœux d'Anniversaire</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #3b82f6 0%, #f5f1e8 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #ffffff;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+        }
+
+        .form-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #1f2937;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            color: #1f2937;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .btn-generate {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-generate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-generate:active {
+            transform: translateY(0);
+        }
+
+        .wishes-card {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b6f47 100%);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            color: white;
+            display: none;
+            animation: slideIn 0.5s ease;
+        }
+
+        .wishes-card.show {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .wishes-card h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .wishes-message {
+            background: rgba(255, 255, 255, 0.1);
+            border-left: 4px solid rgba(255, 255, 255, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+        }
+
+        .btn-whatsapp {
+            width: 100%;
+            padding: 14px;
+            background: #25d366;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-whatsapp:hover {
+            background: #20ba5a;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+        }
+
+        .btn-whatsapp:active {
+            transform: translateY(0);
+        }
+
+        .btn-whatsapp svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .error-message {
+            color: #ef4444;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid #ef4444;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .form-card {
+                padding: 30px 20px;
+            }
+
+            .wishes-card {
+                padding: 30px 20px;
+            }
+
+            .wishes-message {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .form-card {
+                padding: 20px 15px;
+            }
+
+            .wishes-card {
+                padding: 20px 15px;
+            }
+
+            body {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎂 Vœux d'Anniversaire</h1>
+            <p>Générez un message personnalisé et envoyez-le via WhatsApp</p>
+        </div>
+
+        <div class="form-card">
+            <div class="error-message" id="errorMessage"></div>
+            
+            <div class="form-group">
+                <label for="name">Prénom de la personne</label>
+                <input 
+                    type="text" 
+                    id="name" 
+                    placeholder="Ex: Marie"
+                    aria-label="Prénom de la personne"
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="birthDate">Date d'anniversaire</label>
+                <input 
+                    type="date" 
+                    id="birthDate"
+                    aria-label="Date d'anniversaire"
+                >
+            </div>
+
+            <button class="btn-generate" onclick="generateWishes()">
+                Générer les Vœux ✨
+            </button>
+        </div>
+
+        <div class="wishes-card" id="wishesCard">
+            <h2>Vœux Personnalisés 🎉</h2>
+            <div class="wishes-message" id="wishesMessage"></div>
+            <button class="btn-whatsapp" onclick="sendViaWhatsApp()">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004c-1.325 0-2.635-.356-3.75-1.043l-.369-.214-3.822.981.998-3.648-.236-.374A6.566 6.566 0 012.07 9.645c0 3.647 2.97 6.605 6.605 6.605 1.76 0 3.408-.681 4.641-1.915 1.233-1.233 1.915-2.881 1.915-4.641 0-3.634-2.971-6.605-6.605-6.605m5.108-3.175c1.894 0 3.362-1.468 3.362-3.362S19.582 0 17.688 0s-3.362 1.468-3.362 3.362 1.468 3.362 3.362 3.362z"/>
+                </svg>
+                Envoyer via WhatsApp
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Messages de vœux templates
+        const wishTemplates = [
+            "Joyeux Anniversaire {name} ! 🎊 Que cette journée magnifique soit remplie de bonheur, d'amour et de moments inoubliables. Que toutes tes rêves se réalisent et que tu sois béni de sourires chaque jour de l'année. Profite au maximum de ta journée spéciale ! 🎈",
+            
+            "Bon Anniversaire {name} ! 🎂 Un jour spécial pour une personne spéciale. Je te souhaite une année remplie de succès, d'aventures extraordinaires et de moments précieux avec ceux que tu aimes. Célèbre magnifiquement ! 🌟",
+            
+            "Joyeux Anniversaire à {name} ! 🎉 Que ce jour marque le début d'une année fantastique où tous tes rêves deviennent réalité. Merci de briller dans nos vies. Que la joie t'accompagne à chaque instant ! 💫",
+            
+            "Bon Anniversaire {name} ! 🎁 Aujourd'hui, nous célébrons une personne formidable. Je te souhaite une année remplie de rire, de santé et de moments fabuleux. Profite intensément de chaque seconde ! 🎈",
+            
+            "Joyeux Anniversaire {name} ! ✨ Que ce jour spécial te rappelle combien tu es aimé et apprécié. Je te souhaite une année pleine de surprises positives, d'accomplissements et de joie. À ta plus belle année ! 🌈",
+            
+            "Bon Anniversaire à {name} ! 🎊 Un jour pour célébrer la merveilleuse personne que tu es. Je te souhaite une année riche en découvertes, en rire et en moments magiques. Sois heureux ! 🎂",
+            
+            "Joyeux Anniversaire {name} ! 🎉 Que ce jour soit aussi spécial que tu l'es. Merci de faire partie de ma vie. Je te souhaite une année extraordinaire avec plein de bonheur et de réussite. À toi ! 💝"
+        ];
+
+        function generateWishes() {
+            const nameInput = document.getElementById('name');
+            const dateInput = document.getElementById('birthDate');
+            const errorMessage = document.getElementById('errorMessage');
+            const wishesCard = document.getElementById('wishesCard');
+
+            // Réinitialiser le message d'erreur
+            errorMessage.classList.remove('show');
+            errorMessage.textContent = '';
+
+            // Validation
+            if (!nameInput.value.trim()) {
+                showError('Veuillez entrer un prénom');
+                return;
+            }
+
+            if (!dateInput.value) {
+                showError('Veuillez sélectionner une date d\'anniversaire');
+                return;
+            }
+
+            const name = nameInput.value.trim();
+            const selectedDate = new Date(dateInput.value);
+            const today = new Date();
+
+            if (selectedDate > today) {
+                showError('Veuillez sélectionner une date valide');
+                return;
+            }
+
+            // Sélectionner un template aléatoire
+            const randomIndex = Math.floor(Math.random() * wishTemplates.length);
+            const message = wishTemplates[randomIndex].replace('{name}', name);
+
+            // Afficher le message
+            document.getElementById('wishesMessage').textContent = message;
+            wishesCard.classList.add('show');
+
+            // Stocker le message pour WhatsApp
+            window.currentWish = message;
+
+            // Scroll vers les vœux
+            setTimeout(() => {
+                wishesCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 100);
+        }
+
+        function showError(message) {
+            const errorMessage = document.getElementById('errorMessage');
+            errorMessage.textContent = message;
+            errorMessage.classList.add('show');
+        }
+
+        function sendViaWhatsApp() {
+            if (!window.currentWish) {
+                showError('Veuillez d\'abord générer un message');
+                return;
+            }
+
+            const message = encodeURIComponent(window.currentWish);
+            const whatsappUrl = `https://api.whatsapp.com/send?text=${message}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // Permettre l'appui sur Entrée pour générer les vœux
+        document.getElementById('name').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                generateWishes();
+            }
+        });
+
+        document.getElementById('birthDate').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                generateWishes();
+            }
+        });
+    </script>
+</body>
+</html>
