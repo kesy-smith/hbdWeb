@@ -63,7 +63,8 @@
             font-size: 1rem;
         }
 
-        .form-group input {
+        .form-group input[type="text"],
+        .form-group input[type="date"] {
             width: 100%;
             padding: 12px 16px;
             border: 2px solid #e5e7eb;
@@ -73,10 +74,59 @@
             color: #1f2937;
         }
 
-        .form-group input:focus {
+        .form-group input[type="text"]:focus,
+        .form-group input[type="date"]:focus {
             outline: none;
             border-color: #3b82f6;
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .variants-section {
+            margin-bottom: 25px;
+        }
+
+        .variants-title {
+            color: #1f2937;
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        .variants-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+        }
+
+        .variant-option {
+            display: flex;
+            align-items: center;
+        }
+
+        .variant-option input[type="radio"] {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #3b82f6;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-right: 8px;
+            flex-shrink: 0;
+        }
+
+        .variant-option input[type="radio"]:checked {
+            background: #3b82f6;
+            box-shadow: inset 0 0 0 3px white;
+        }
+
+        .variant-option label {
+            margin: 0;
+            cursor: pointer;
+            font-size: 0.95rem;
+            color: #374151;
+            font-weight: 500;
+            user-select: none;
         }
 
         .btn-generate {
@@ -292,6 +342,36 @@
                 >
             </div>
 
+            <div class="variants-section">
+                <div class="variants-title">Choisissez le style de vœux</div>
+                <div class="variants-grid">
+                    <div class="variant-option">
+                        <input type="radio" id="romantic" name="variant" value="romantic" checked>
+                        <label for="romantic">💕 Romantique</label>
+                    </div>
+                    <div class="variant-option">
+                        <input type="radio" id="friendly" name="variant" value="friendly">
+                        <label for="friendly">😊 Chaleureux</label>
+                    </div>
+                    <div class="variant-option">
+                        <input type="radio" id="inspirational" name="variant" value="inspirational">
+                        <label for="inspirational">✨ Inspirant</label>
+                    </div>
+                    <div class="variant-option">
+                        <input type="radio" id="humorous" name="variant" value="humorous">
+                        <label for="humorous">😄 Rigolo</label>
+                    </div>
+                    <div class="variant-option">
+                        <input type="radio" id="family" name="variant" value="family">
+                        <label for="family">👨‍👩‍👧 Familial</label>
+                    </div>
+                    <div class="variant-option">
+                        <input type="radio" id="adventurous" name="variant" value="adventurous">
+                        <label for="adventurous">🚀 Aventurier</label>
+                    </div>
+                </div>
+            </div>
+
             <button class="btn-generate" onclick="generateWishes()">
                 Générer les Vœux ✨
             </button>
@@ -320,40 +400,94 @@
     </div>
 
     <script>
-        // Messages de vœux templates (20 variantes)
-        const wishTemplates = [
-            "Joyeux Anniversaire {name} ! 🎊 Que cette journée magnifique soit remplie de bonheur, d'amour et de moments inoubliables. Que tous tes rêves se réalisent et que tu sois béni de sourires chaque jour de l'année. Profite au maximum de ta journée spéciale ! 🎈",
-            "Bon Anniversaire {name} ! 🎂 Un jour spécial pour une personne spéciale. Je te souhaite une année remplie de succès, d'aventures extraordinaires et de moments précieux avec ceux que tu aimes. Célèbre magnifiquement ! 🌟",
-            "Joyeux Anniversaire à {name} ! 🎉 Que ce jour marque le début d'une année fantastique où tous tes rêves deviennent réalité. Merci de briller dans nos vies. Que la joie t'accompagne à chaque instant ! 💫",
-            "Bon Anniversaire {name} ! 🎁 Aujourd'hui, nous célébrons une personne formidable. Je te souhaite une année remplie de rire, de santé et de moments fabuleux. Profite intensément de chaque seconde ! 🎈",
-            "Joyeux Anniversaire {name} ! ✨ Que ce jour spécial te rappelle combien tu es aimé et apprécié. Je te souhaite une année pleine de surprises positives, d'accomplissements et de joie. À ta plus belle année ! 🌈",
-            "Bon Anniversaire à {name} ! 🎊 Un jour pour célébrer la merveilleuse personne que tu es. Je te souhaite une année riche en découvertes, en rire et en moments magiques. Sois heureux ! 🎂",
-            "Joyeux Anniversaire {name} ! 🎉 Que ce jour soit aussi spécial que tu l'es. Merci de faire partie de ma vie. Je te souhaite une année extraordinaire avec plein de bonheur et de réussite. À toi ! 💝",
-            "Bon Anniversaire {name} ! 🥳 En cette journée spéciale, je veux te dire combien tu comptes. Que ce jour soit le début d'une belle année remplie de santé, de bonheur et d'accomplissements. À bientôt les célébrations ! 🎈",
-            "Joyeux Anniversaire {name} ! 🌞 Aujourd'hui c'est TON jour ! Je te souhaite une année lumineuse avec des victoires, des rires sans fin et des moments magiques à partager avec les gens que tu aimes. 🌺",
-            "Bon Anniversaire à {name} ! 🎁 Que ta journée soit aussi merveilleuse que toi. Je te souhaite une année remplie de nouvelles expériences excitantes, de croissance personnelle et de joie pure. Profite ! 🎀",
-            "Joyeux Anniversaire {name} ! 💎 Tu mérites le meilleur ! Que cette année t'apporte la réussite dans tous tes projets, la santé dans ton corps et l'amour dans ton cœur. C'est ton jour, brille ! ⭐",
-            "Bon Anniversaire {name} ! 🚀 Un an de plus, c'est un an de sagesse supplémentaire. Je te souhaite une année pleine d'aventures, de découvertes et de rêves qui se réalisent. À l'année à venir ! 🌟",
-            "Joyeux Anniversaire {name} ! 🎵 Que ta journée soit remplie de musique, de rire et de bonheur. Je te souhaite une année où chaque jour apporte une nouvelle raison de sourire. Célèbre magnifiquement ! 🎶",
-            "Bon Anniversaire à {name} ! 💫 Aujourd'hui, le monde est plus beau parce que tu es dans cette vie. Je te souhaite une année extraordinaire avec des moments précieux et des souvenirs inoubliables. 🎊",
-            "Joyeux Anniversaire {name} ! 🌈 Que ce jour spécial soit le commencement d'une année magnifique remplie de succès, de paix et d'amour. Tu le mérites pleinement. À ta santé ! 🥂",
-            "Bon Anniversaire {name} ! 🎯 Aujourd'hui tu deviens un an plus sage et un an plus beau. Je te souhaite une année où tu réalises tous tes objectifs et où tu trouves le bonheur à chaque coin. 🏆",
-            "Joyeux Anniversaire {name} ! 🦋 Comme un papillon, que tu saches t'envoler vers tes rêves cette année. Que la vie t'apporte la santé, l'amour et l'épanouissement. Bonne fête ! 🌸",
-            "Bon Anniversaire à {name} ! 🎨 La vie est une toile vierge, peins-la avec les couleurs de ton bonheur. Je te souhaite une année créative, pleine de joie et de succès ! 🎭",
-            "Joyeux Anniversaire {name} ! 💝 Aujourd'hui c'est ta fête, savoure chaque moment. Je te souhaite une année merveilleuse, remplie d'amour, de santé et d'accomplissements. À toi ! 👑",
-            "Bon Anniversaire {name} ! ✨ Que ce jour marque le début d'une année incroyable. Tu es une personne spéciale et je te souhaite une année à la hauteur de ta kindness et ta gentillesse. Profite au maximum ! 🎆",
-            "Joyeux Anniversaire mon {name} ! 💕 Chaque jour à tes côtés est une bénédiction. Je te souhaite une journée aussi belle que tu l'es, remplie d'amour, de tendresse et de moments magiques. Tu es mon rayon de soleil ! 🌅",
-            "Bon Anniversaire à mon cœur {name} ! 💗 En ce jour spécial, je te remercie pour tout l'amour que tu apportes dans ma vie. Je te souhaite une année remplie de romance, de rires complices et de souvenirs merveilleux. Je t'aime ! 😘",
-            "Joyeux Anniversaire {name} ! 💞 Tu es la plus belle fleur de mon jardin. Que ce jour te rappelle combien tu es adorée et chérie. Je te souhaite une année remplie de tendresse, de passion et de bonheur éternel. Mon amour pour toi ne cesse de grandir ! 🌹",
-            "Bon Anniversaire à ma personne préférée {name} ! 💑 Chaque moment avec toi est un trésor. En ce jour spécial, je te souhaite une année où notre amour continue de s'épanouir. Que chaque jour soit une nouvelle raison d'être heureux ensemble. Je t'aime infiniment ! 💕",
-            "Joyeux Anniversaire {name} ! 🎀💝 Tu es l'amour de ma vie et la raison de mon sourire quotidien. Je te souhaite une journée aussi douce et merveilleuse que nos moments ensemble. Que cette année nous apporte plus de joie, de passion et de rêves réalisés. À toi pour toujours ! 💫"
-        ];
+        // Messages de vœux organisés par variantes (11+ modèles par variante)
+        const wishVariants = {
+            romantic: [
+                "Joyeux Anniversaire mon {name} ! 💕 Chaque jour à tes côtés est une bénédiction. Je te souhaite une journée aussi belle que tu l'es, remplie d'amour, de tendresse et de moments magiques. Tu es mon rayon de soleil ! 🌅",
+                "Bon Anniversaire à mon cœur {name} ! 💗 En ce jour spécial, je te remercie pour tout l'amour que tu apportes dans ma vie. Je te souhaite une année remplie de romance, de rires complices et de souvenirs merveilleux. Je t'aime ! 😘",
+                "Joyeux Anniversaire {name} ! 💞 Tu es la plus belle fleur de mon jardin. Que ce jour te rappelle combien tu es adorée et chérie. Je te souhaite une année remplie de tendresse, de passion et de bonheur éternel. Mon amour pour toi ne cesse de grandir ! 🌹",
+                "Bon Anniversaire à ma personne préférée {name} ! 💑 Chaque moment avec toi est un trésor. En ce jour spécial, je te souhaite une année où notre amour continue de s'épanouir. Que chaque jour soit une nouvelle raison d'être heureux ensemble. Je t'aime infiniment ! 💕",
+                "Joyeux Anniversaire {name} ! 🎀💝 Tu es l'amour de ma vie et la raison de mon sourire quotidien. Je te souhaite une journée aussi douce et merveilleuse que nos moments ensemble. Que cette année nous apporte plus de joie, de passion et de rêves réalisés. À toi pour toujours ! 💫",
+                "Bon Anniversaire à {name} ! 💌 Mon amour pour toi grandit chaque jour. Aujourd'hui, je célèbre celui qui fait battre mon cœur. Je te souhaite une année magnifique remplie de surprises romantiques et de tendresse infinie. Tu es mon univers ! 🌌",
+                "Joyeux Anniversaire {name} ! 💖 Dans tes yeux, j'ai trouvé mon home. En ce jour spécial, je veux te dire que tu es ma plus belle histoire d'amour. Je te souhaite une année de bonheur pur, de câlins doux et de baisers passionnés. Je suis fou de toi ! 😍",
+                "Bon Anniversaire mon amour {name} ! 🥀 Merci d'être la lumière qui guide ma vie. Je te souhaite une journée féerique remplie de moments magiques. Que cette année renforce notre amour et nous rapproche encore plus. À jamais à toi ! 💏",
+                "Joyeux Anniversaire {name} ! 💘 Tu es ma muse, mon inspiration, mon amour éternel. En ce jour spécial, je te souhaite une année remplie de passion, de rêves partagés et de moments inoubliables à deux. Nos cœurs battent à l'unisson ! 🎶💕",
+                "Bon Anniversaire {name} ! 🌺 Avec toi, chaque jour est une nouvelle aventure romantique. Je te souhaite une année aussi profonde que mon amour pour toi, aussi douce que ton sourire. Tu es mon éternité ! ✨💗",
+                "Joyeux Anniversaire {name} ! 💎 Tu es ma rose la plus précieuse. En ce jour spécial, je promets de t'aimer encore plus chaque année. Que ce jour marque le début d'une année remplie de rêves réalisés et d'amour sans fin. À toi mon cœur ! 👑💕"
+            ],
+            friendly: [
+                "Joyeux Anniversaire {name} ! 😊 Que cette journée magnifique soit remplie de bonheur, d'amour et de moments inoubliables. Que tous tes rêves se réalisent et que tu sois béni de sourires chaque jour de l'année. Profite au maximum de ta journée spéciale ! 🎈",
+                "Bon Anniversaire {name} ! 🎂 Un jour spécial pour une personne spéciale. Je te souhaite une année remplie de succès, d'aventures extraordinaires et de moments précieux avec ceux que tu aimes. Célèbre magnifiquement ! 🌟",
+                "Joyeux Anniversaire {name} ! 🥳 En cette journée spéciale, je veux te dire combien tu comptes. Que ce jour soit le début d'une belle année remplie de santé, de bonheur et d'accomplissements. À bientôt les célébrations ! 🎊",
+                "Bon Anniversaire à {name} ! 😄 Que ta journée soit remplie de rires, de blagues et de moments joyeux. Je te souhaite une année pleine de bonne humeur, d'amis fidèles et de souvenirs hilarants. C'est ta fête ! 🎉",
+                "Joyeux Anniversaire {name} ! 🌞 Aujourd'hui c'est TON jour ! Je te souhaite une année lumineuse avec des victoires, des rires sans fin et des moments magiques à partager avec les gens que tu aimes. 🌺",
+                "Bon Anniversaire à {name} ! 👏 Bravo pour une autre année d'existence formidable ! Je te souhaite une année remplie de bonne compagnie, de fous rires et de moments impérissables. Tu es awesome ! 🤣",
+                "Joyeux Anniversaire {name} ! 🎁 Aujourd'hui c'est ta fête, profite-en au maximum ! Je te souhaite une année remplie d'amis loyaux, de sourires sincères et de moments chaleureux. À ta santé mon ami ! 🎊",
+                "Bon Anniversaire {name} ! ☀️ Merci d'être la belle personne que tu es. Je te souhaite une année de complicité, de rires partagés et de moments conviviaux. Tu as la chance d'avoir les meilleurs dans ta vie ! 🌈",
+                "Joyeux Anniversaire {name} ! 🎈 C'est l'heure de célébrer toi et tout le bonheur que tu apportes autour de toi. Je te souhaite une année remplie de camaraderie, de joie authentique et de bonne ambiance. À la fête ! 🥳",
+                "Bon Anniversaire {name} ! 🌟 Un jour pour honorer quelqu'un de spécial - TOI ! Je te souhaite une année merveilleuse avec de super copains, des éclats de rire constants et des moments de pure joie. Profite ! 🎉",
+                "Joyeux Anniversaire {name} ! 🤗 Tu mérites le meilleur jour jamais ! Je te souhaite 365 jours remplis de copains fantastiques, d'aventures sympas et de moments mémorables. C'est ta année ! 🌟"
+            ],
+            inspirational: [
+                "Joyeux Anniversaire à {name} ! 🎉 Que ce jour marque le début d'une année fantastique où tous tes rêves deviennent réalité. Merci de briller dans nos vies. Que la joie t'accompagne à chaque instant ! 💫",
+                "Bon Anniversaire {name} ! ✨ Que ce jour spécial te rappelle combien tu es aimé et apprécié. Je te souhaite une année pleine de surprises positives, d'accomplissements et de joie. À ta plus belle année ! 🌈",
+                "Joyeux Anniversaire {name} ! 💎 Tu mérites le meilleur ! Que cette année t'apporte la réussite dans tous tes projets, la santé dans ton corps et l'amour dans ton cœur. C'est ton jour, brille ! ⭐",
+                "Bon Anniversaire {name} ! 🚀 Un an de plus, c'est un an de sagesse supplémentaire. Je te souhaite une année pleine d'aventures, de découvertes et de rêves qui se réalisent. À l'année à venir ! 🌟",
+                "Joyeux Anniversaire {name} ! 🎯 Aujourd'hui tu deviens un an plus sage et un an plus fort. Je te souhaite une année où tu réalises tous tes objectifs et où tu trouves le bonheur à chaque coin. 🏆",
+                "Bon Anniversaire {name} ! 🦅 Envole-toi vers tes rêves les plus ambitieux ! Cette année, je te souhaite le courage de prendre des risques, la force de surmonter les obstacles et la joie de la victoire. Tu peux tout faire ! 💪",
+                "Joyeux Anniversaire {name} ! 📈 Que cette année soit celle de l'épanouissement personnel. Je te souhaite de découvrir tes talents cachés, de repousser tes limites et de réussir au-delà de tes rêves. C'est ton moment ! ✨",
+                "Bon Anniversaire {name} ! 🌟 Chaque année t'apporte une nouvelle strength et une nouvelle wisdom. Je te souhaite une année où tu construis ton meilleur version, où tu relèves tous les défis et où tu inspires les autres. Tu es capable ! 💡",
+                "Joyeux Anniversaire {name} ! 🔥 Ton potentiel est ILLIMITÉ ! Que cette année te pousse à exploiter tous tes talents, à poursuivre tes passions et à réaliser l'extraordinaire. Le monde a besoin de ta grandeur ! 🌍",
+                "Bon Anniversaire {name} ! 🎪 Un an de plus = une chance de nouveau début. Je te souhaite une année remplie de croissance personnelle, de succès remarquables et de satisfaction profonde. Tu avais tout en toi ! 👑",
+                "Joyeux Anniversaire {name} ! ✨ La meilleure version de toi t'attend. Je te souhaite une année de transformation positive, de réalisations spectaculaires et de paix intérieure. C'est TON année ! 🌈"
+            ],
+            humorous: [
+                "Bon Anniversaire {name} ! 😄 Aujourd'hui, tu as officiellement un an de plus et un an plus proche de ne rien comprendre à la technologie. Félicitations ! Je te souhaite une année remplie de rire, même de tes propres blagues ! 🎂",
+                "Joyeux Anniversaire {name} ! 😂 Bonne nouvelle : tu n'as pas encore disparu de l'univers ! Autre bonne nouvelle : tes cheveux blancs te donnent un air de sagesse. Je te souhaite une année hilarante ! 🤣",
+                "Bon Anniversaire {name} ! 🎉 Félicitations pour ne pas avoir trouvé de couches pour adultes à ton âge... encore ! Je te souhaite une année moins vieille que l'année prochaine. Santé à ça ! 🎂",
+                "Joyeux Anniversaire {name} ! 😆 Tu sais que tu vieillis quand les bougies coûtent plus cher que le gâteau. Mais bonne nouvelle, tu valides encore ! Je te souhaite une année jeune d'esprit ! 🕯️",
+                "Bon Anniversaire {name} ! 🤪 Aujourd'hui c'est le jour où nous te permettons de lâcher prise sans jugement. Un jour par an seulement ! Je te souhaite une année folle et sans regrets ! 🎊",
+                "Joyeux Anniversaire {name} ! 😜 Bravo d'avoir survécu une autre année au chaos de la vie ! C'est un exploit en soi. Je te souhaite une année remplie de café, de patience et de beaucoup d'humour ! ☕",
+                "Bon Anniversaire {name} ! 🤣 Les années passent et tu deviens plus en plus... sentimental ? Non, juste plus fatigué. Je te souhaite une année avec beaucoup de sommeil et de canapé ! 🛋️",
+                "Joyeux Anniversaire {name} ! 😂 Tu as officiellement atteint le stade où tu dis « regrets » au lieu de « merci » pour les cadeaux. Je te souhaite malgré tout une année fantastique ! 🎁",
+                "Bon Anniversaire {name} ! 😆 Nous célébrons le fait que tu n'as pas encore crié au cloud comme un vieux grognon - à peine ! Je te souhaite une année pleine d'espoir ! 👴",
+                "Joyeux Anniversaire {name} ! 🤪 Les bougies sur ton gâteau coûtent maintenant plus cher en électricité qu'en cire. Mais c'est okay ! Je te souhaite une année éclatante ! 💡",
+                "Bon Anniversaire {name} ! 😜 À chaque année, tu deviens un peu plus toi-même. Heureusement pour nous, tu n'es pas devenu trop bizarre... encore ! Je te souhaite une année amusante ! 🎂"
+            ],
+            family: [
+                "Joyeux Anniversaire {name} ! 👨‍👩‍👧 En ce jour spécial, je pense à tous les beaux souvenirs que nous avons partagés. Je te souhaite une année remplie de moments précieux en famille, de câlins et de rires partagés. Tu es au cœur de notre famille ! 💕",
+                "Bon Anniversaire à {name} ! 👪 Aujourd'hui, nous célébrons la personne merveilleuse que tu es pour notre famille. Je te souhaite une année remplie d'amour familial, de réunions joyeuses et de création de nouveaux souvenirs. Tu es notre fierté ! 🎊",
+                "Joyeux Anniversaire {name} ! 💑👧👦 Merci d'être là pour nous, chaque jour. Je te souhaite une année magnifique remplie de moments en famille, de repas partagés et de tendresse. Notre famille a de la chance de t'avoir ! 🏡",
+                "Bon Anniversaire {name} ! 👨‍👩‍👦 C'est un honneur d'être dans la même famille que quelqu'un d'aussi spécial. Je te souhaite une année remplie de soutien familial, d'unité et de moments inoubliables ensemble. À notre belle famille ! ❤️",
+                "Joyeux Anniversaire {name} ! 🎂 Chaque année, tu inspires notre famille par ton amour et ta générosité. Je te souhaite une année où tu reçois autant que tu donnes. Tu mérites le monde ! 🌍",
+                "Bon Anniversaire à {name} ! 👫 Dans notre famille, tu es notre rayon de soleil. Je te souhaite une année radieuse remplie de moments chaleureux avec ceux qu'on aime. Notre famille n'est complète que avec toi ! 🌞",
+                "Joyeux Anniversaire {name} ! 🎈 C'est merveilleux de grandir dans la même famille que toi. Je te souhaite une année remplie de solidarité familiale, de blagues partagées et de moments précieux. Je suis chanceux de t'avoir ! 😊",
+                "Bon Anniversaire {name} ! 💗 Tu es bien plus qu'un membre de la famille, tu es mon ami, mon confident et mon inspiration. Je te souhaite une année remplie de joie, de soutien mutuel et d'amour inconditionnel. 👨‍👩‍👧‍👦",
+                "Joyeux Anniversaire {name} ! 🏠 Les moments en famille avec toi sont mes plus grands trésors. Je te souhaite une année remplie de repas délicieux ensemble, de conversations significatives et de rires authentiques. Tu es notre âme ! 💞",
+                "Bon Anniversaire à {name} ! 🎂💕 Merci pour tous les sacrifices et l'amour que tu montres à notre famille. Je te souhaite une année où tu te chéris autant que tu nous chéris. Tu mérites le meilleur ! 👑",
+                "Joyeux Anniversaire {name} ! 🌟 Une journée pour célébrer quelqu'un qui a rendu notre famille plus belle. Je te souhaite une année merveilleuse remplie de santé, de bonheur et de moments de famille poignants. À toi ! 💖"
+            ],
+            adventurous: [
+                "Joyeux Anniversaire {name} ! 🚀 Que cette année soit l'année de l'aventure ! Je te souhaite de découvrir de nouveaux endroits, de relever des défis excitants et de créer des histoires incroyables. Le monde t'attend ! 🌍",
+                "Bon Anniversaire {name} ! 🏔️ Un an de plus, c'est un an de plus pour explorer, découvrir et vivre intensément. Je te souhaite une année remplie de voyages, de nouvelles expériences et de frissons d'adrénaline. À l'aventure ! ✈️",
+                "Joyeux Anniversaire {name} ! 🎯 Que cette année soit celle où tu oses faire ce que tu as toujours rêvé. Je te souhaite le courage d'explorer l'inconnu, de surpasser tes limites et de vivre une vie extraordinaire. C'est ton moment ! 💪",
+                "Bon Anniversaire {name} ! 🧗 La vie est une grande aventure et tu es le héros. Je te souhaite une année remplie de quêtes excitantes, de découvertes captivantes et de souvenirs épiques. Sois audacieux ! 🌟",
+                "Joyeux Anniversaire {name} ! 🏖️ Que cette année t'apporte la liberté d'explorer, l'envie de voyager et la passion de vivre pleinement. Je te souhaite une année remplie de plages exotiques, de montagnes majestueuses et d'horizons infinis. Va conquérir ! 🗺️",
+                "Bon Anniversaire à {name} ! 🚡 Je célèbre ta soif insatiable de nouvelles expériences ! Je te souhaite une année remplie d'aventures palpitantes, de rencontres enrichissantes et de moments mémorables. Le terrain de jeu t'appelle ! 🎪",
+                "Joyeux Anniversaire {name} ! ⛺ Chaque jour est une nouvelle opportunité d'aventure. Je te souhaite une année où tu marches sur des sentiers inconnus, grimpes des montagnes impossibles et respires l'air de la liberté. Vis intensément ! 🏕️",
+                "Bon Anniversaire {name} ! 🤿 Plonge profond dans cette nouvelle année ! Je te souhaite une année remplie de découvertes, de sensations fortes et de moments qui te rappellent que tu es vivant. Sois l'aventurier que tu as toujours voulu être ! 🌊",
+                "Joyeux Anniversaire {name} ! 🛩️ Un an de plus pour voler haut, explorer loin et rêver grand. Je te souhaite une année remplie de nouvelles destinations, de rencontres fascinantes et d'histoires incroyables à raconter. Le ciel n'est pas une limite ! ☁️",
+                "Bon Anniversaire à {name} ! 🗻 C'est le moment de gravir tes montagnes, de surmonter tes défis et de célébrer ta force. Je te souhaite une année épique remplie d'aventures mémorables, de victoires personnelles et de croissance extraordinaire. Tu peux tout faire ! 🎖️",
+                "Joyeux Anniversaire {name} ! 🌴 Que cette année soit remplie d'escapades, de découvertes et de moments qui font battre ton cœur. Je te souhaite une année aventureuse, audacieuse et absolument magnifique. Va vivre tes rêves ! 🌺"
+            ]
+        };
 
         function generateWishes() {
             const nameInput = document.getElementById('name');
             const dateInput = document.getElementById('birthDate');
             const errorMessage = document.getElementById('errorMessage');
             const wishesCard = document.getElementById('wishesCard');
+            const variantRadios = document.getElementsByName('variant');
 
             // Réinitialiser le message d'erreur
             errorMessage.classList.remove('show');
@@ -379,9 +513,19 @@
                 return;
             }
 
-            // Sélectionner un template aléatoire
-            const randomIndex = Math.floor(Math.random() * wishTemplates.length);
-            const message = wishTemplates[randomIndex].replace('{name}', name);
+            // Récupérer la variante sélectionnée
+            let selectedVariant = 'romantic';
+            for (let radio of variantRadios) {
+                if (radio.checked) {
+                    selectedVariant = radio.value;
+                    break;
+                }
+            }
+
+            // Sélectionner un template aléatoire selon la variante
+            const templates = wishVariants[selectedVariant];
+            const randomIndex = Math.floor(Math.random() * templates.length);
+            const message = templates[randomIndex].replace('{name}', name);
 
             // Afficher le message
             document.getElementById('wishesMessage').textContent = message;
